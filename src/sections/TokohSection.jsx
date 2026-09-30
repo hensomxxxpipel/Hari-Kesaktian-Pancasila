@@ -42,12 +42,12 @@ const figures = [
   {
     number: "04",
     role: "MILITER",
-    name: "Kolonel Abdul Latief",
+    name: "Abdul Latief",
     image: "/assets/tokoh-latief.png",
     description:
       "Komandan Brigif 1 Jaya Sakti yang termasuk tokoh militer yang disebut dalam pembahasan mengenai G30S.",
     details: [
-      "Kolonel Abdul Latief merupakan Komandan Brigif 1 Jaya Sakti.",
+      "Abdul Latief merupakan Komandan Brigif 1 Jaya Sakti.",
       "Namanya termasuk dalam pembahasan mengenai tokoh militer yang berkaitan dengan rangkaian G30S.",
       "Setelah peristiwa tersebut, keterangannya mengenai pertemuan dan hubungan antar-tokoh menjadi salah satu sumber yang digunakan dalam kajian mengenai peristiwa 1965.",
     ],

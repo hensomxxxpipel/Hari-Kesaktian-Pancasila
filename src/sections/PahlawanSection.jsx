@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 const heroes = [
   {
     number: "01",
-    name: "Jenderal Ahmad Yani",
+    name: "Jenderal Anumerta Ahmad Yani",
     rank: "Menteri / Panglima Angkatan Darat",
     description:
       "Ahmad Yani merupakan Menteri/Panglima Angkatan Darat pada 1965. Ia menjadi salah satu perwira senior yang menjadi sasaran penculikan pada awal Oktober 1965.",
@@ -11,7 +11,7 @@ const heroes = [
   },
   {
     number: "02",
-    name: "Mayjen R. Soeprapto",
+    name: "Mayjen Anumerta R. Soeprapto",
     rank: "Deputi II Menteri/Panglima Angkatan Darat",
     description:
       "R. Soeprapto merupakan salah satu pejabat tinggi Angkatan Darat yang menjadi korban dalam rangkaian penculikan pada awal Oktober 1965.",
@@ -19,7 +19,7 @@ const heroes = [
   },
   {
     number: "03",
-    name: "Mayjen M.T. Haryono",
+    name: "Mayjen Anumerta M.T. Haryono",
     rank: "Deputi III Menteri/Panglima Angkatan Darat",
     description:
       "M.T. Haryono merupakan pejabat tinggi Angkatan Darat yang menjadi salah satu korban dalam peristiwa penculikan dan pembunuhan pada awal Oktober 1965.",
@@ -27,7 +27,7 @@ const heroes = [
   },
   {
     number: "04",
-    name: "Mayjen S. Parman",
+    name: "Mayjen Anumerta S. Parman",
     rank: "Asisten I Menteri/Panglima Angkatan Darat",
     description:
       "S. Parman menjabat sebagai Asisten I Menteri/Panglima Angkatan Darat bidang intelijen. Ia termasuk dalam tujuh korban yang kemudian dimakamkan di Kalibata.",
@@ -35,7 +35,7 @@ const heroes = [
   },
   {
     number: "05",
-    name: "Brigjen D.I. Panjaitan",
+    name: "Brigjen Anumerta D.I. Panjaitan",
     rank: "Asisten IV Menteri/Panglima Angkatan Darat",
     description:
       "D.I. Panjaitan merupakan Asisten IV Menteri/Panglima Angkatan Darat bidang logistik dan menjadi salah satu korban dalam rangkaian peristiwa tersebut.",
@@ -43,7 +43,7 @@ const heroes = [
   },
   {
     number: "06",
-    name: "Brigjen Sutoyo",
+    name: "Brigjen Anumerta Sutoyo",
     rank: "Inspektur Kehakiman / Oditur Jenderal AD",
     description:
       "Sutoyo Siswomiharjo menjabat sebagai Inspektur Kehakiman/Oditur Jenderal Angkatan Darat dan termasuk dalam tujuh korban yang ditemukan di Lubang Buaya.",
@@ -51,7 +51,7 @@ const heroes = [
   },
   {
     number: "07",
-    name: "Lettu Pierre A. Tendean",
+    name: "Lettu Anumerta Pierre A. Tendean",
     rank: "Ajudan Jenderal A.H. Nasution",
     description:
       "Pierre A. Tendean merupakan perwira yang menjadi ajudan Jenderal A.H. Nasution. Ia menjadi salah satu dari tujuh korban yang ditemukan di Lubang Buaya.",
@@ -59,7 +59,7 @@ const heroes = [
   },
   {
     number: "08",
-    name: "Brigjen Katamso",
+    name: "Brigjen Anumerta Katamso",
     rank: "Komandan Korem 072/Pamungkas",
     description:
       "Katamso merupakan perwira Angkatan Darat yang menjadi korban dalam rangkaian peristiwa 1965 di Yogyakarta.",
@@ -67,7 +67,7 @@ const heroes = [
   },
   {
     number: "09",
-    name: "Kolonel Sugiyono",
+    name: "Kolonel Anumerta Sugiyono",
     rank: "Kepala Staf Korem 072/Pamungkas",
     description:
       "Sugiyono merupakan perwira Angkatan Darat yang menjadi korban dalam rangkaian peristiwa 1965 di Yogyakarta.",
@@ -75,7 +75,7 @@ const heroes = [
   },
   {
     number: "10",
-    name: "Brigpol Karel Satsuit Tubun",
+    name: "Brigpol Anumerta Karel Satsuit Tubun",
     rank: "Anggota Brimob / Pengawal Kediaman J. Leimena",
     description:
       "Karel Satsuit Tubun merupakan anggota Brimob yang menjadi korban dalam rangkaian peristiwa 1965 ketika menjalankan tugas pengamanan.",
