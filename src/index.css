@@ -1,0 +1,832 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins&family=Titan+One&display=swap');
+@import "tailwindcss";
+
+
+
+/* =========================================================
+   ROOT VARIABLES
+   ========================================================= */
+
+:root {
+  /* ---------- Background ---------- */
+  --color-obsidian: #080808;
+  --color-black: #050505;
+  --color-charcoal: #111111;
+  --color-surface: #171717;
+  --color-surface-light: #202020;
+
+  /* ---------- Red ---------- */
+  --color-deep-red: #7f1d1d;
+  --color-crimson: #b91c1c;
+  --color-red-soft: #991b1b;
+  --color-red-glow: rgba(185, 28, 28, 0.35);
+
+  /* ---------- Gold ---------- */
+  --color-gold: #c49a5a;
+  --color-gold-light: #dfbd7a;
+  --color-gold-dark: #80633a;
+  --color-gold-glow: rgba(196, 154, 90, 0.25);
+
+  /* ---------- Text ---------- */
+  --color-ivory: #f2ede3;
+  --color-white: #ffffff;
+  --color-text: #d6d0c7;
+  --color-muted: #a8a29e;
+  --color-subtle: #73706c;
+
+  /* ---------- Archive ---------- */
+  --color-sepia: #806a4a;
+  --color-paper: #c9b99f;
+  --color-paper-dark: #8c7a61;
+
+  /* ---------- Borders ---------- */
+  --color-border: rgba(255, 255, 255, 0.10);
+  --color-border-light: rgba(255, 255, 255, 0.16);
+  --color-border-gold: rgba(196, 154, 90, 0.35);
+  --color-border-red: rgba(185, 28, 28, 0.40);
+
+  /* ---------- Typography ---------- */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "DM Sans", Arial, sans-serif;
+
+  /* ---------- Layout ---------- */
+  --max-width: 1280px;
+  --section-padding: clamp(80px, 10vw, 160px);
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background: var(--color-obsidian);
+  color: var(--color-text);
+
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+
+  overflow-x: hidden;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* =========================================================
+   GLOBAL BACKGROUND
+   ========================================================= */
+
+body {
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(127, 29, 29, 0.16),
+      transparent 35%
+    ),
+    var(--color-obsidian);
+}
+
+
+/* =========================================================
+   FILM / GRAIN EFFECT
+   ========================================================= */
+
+body::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 9999;
+
+  opacity: 0.035;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+
+  mix-blend-mode: soft-light;
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  background: var(--color-deep-red);
+  color: var(--color-ivory);
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+
+  font-family: var(--font-display);
+  font-weight: 500;
+
+  color: var(--color-ivory);
+
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--color-muted);
+}
+
+.text-gold {
+  color: var(--color-gold);
+}
+
+.text-red {
+  color: var(--color-crimson);
+}
+
+.text-ivory {
+  color: var(--color-ivory);
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.site-container {
+  width: min(
+    calc(100% - 48px),
+    var(--max-width)
+  );
+
+  margin-inline: auto;
+}
+
+
+/* =========================================================
+   SECTION BASE
+   ========================================================= */
+
+.story-section {
+  position: relative;
+
+  min-height: 100vh;
+
+  padding-block: var(--section-padding);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   SECTION ATMOSPHERE
+   ========================================================= */
+
+.story-section::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(127, 29, 29, 0.08),
+      transparent 30%
+    );
+
+  z-index: 0;
+}
+
+.story-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* =========================================================
+   DARK SECTION
+   ========================================================= */
+
+.section-dark {
+  background: #080808;
+}
+
+
+/* =========================================================
+   RED SECTION
+   ========================================================= */
+
+.section-red {
+  background:
+    radial-gradient(
+      circle at 70% 30%,
+      rgba(127, 29, 29, 0.20),
+      transparent 35%
+    ),
+    #0a0808;
+}
+
+
+/* =========================================================
+   ARCHIVE SECTION
+   ========================================================= */
+
+.section-archive {
+  background:
+    linear-gradient(
+      135deg,
+      #16120e,
+      #0b0b0b
+    );
+}
+
+.section-archive::before {
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(128, 106, 74, 0.12),
+      transparent 30%
+    );
+}
+
+
+/* =========================================================
+   HONOR / CANDLE SECTION
+   ========================================================= */
+
+.section-honor {
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(196, 154, 90, 0.08),
+      transparent 40%
+    ),
+    #090909;
+}
+
+
+/* =========================================================
+   SECTION TRANSITION
+   ========================================================= */
+
+.section-transition {
+  position: relative;
+}
+
+.section-transition::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 180px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      #080808
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   EYEBROW
+   ========================================================= */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--color-gold);
+
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+
+  width: 28px;
+  height: 1px;
+
+  background: currentColor;
+}
+
+
+/* =========================================================
+   SECTION NUMBER
+   ========================================================= */
+
+.section-number {
+  font-family: var(--font-display);
+
+  font-size: clamp(50px, 7vw, 100px);
+
+  line-height: 1;
+
+  color: transparent;
+
+  -webkit-text-stroke: 1px rgba(196, 154, 90, 0.35);
+
+  opacity: 0.8;
+}
+
+
+/* =========================================================
+   LARGE DISPLAY TITLE
+   ========================================================= */
+
+.display-title {
+  font-family: var(--font-display);
+
+  font-size: clamp(
+    48px,
+    7vw,
+    100px
+  );
+
+  line-height: 0.98;
+
+  letter-spacing: -0.045em;
+
+  color: var(--color-ivory);
+}
+
+.display-title em {
+  color: var(--color-gold);
+  font-style: normal;
+}
+
+
+/* =========================================================
+   BODY TEXT
+   ========================================================= */
+
+.body-large {
+  max-width: 700px;
+
+  color: var(--color-muted);
+
+  font-size: clamp(17px, 1.4vw, 21px);
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   GLASS / DARK CARD
+   ========================================================= */
+
+.dark-card {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.045),
+      rgba(255,255,255,0.012)
+    );
+
+  border: 1px solid var(--color-border);
+
+  backdrop-filter: blur(12px);
+
+  transition:
+    border-color 0.35s ease,
+    transform 0.35s ease,
+    background 0.35s ease;
+}
+
+.dark-card:hover {
+  border-color: var(--color-border-gold);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(196,154,90,0.07),
+      rgba(255,255,255,0.015)
+    );
+
+  transform: translateY(-5px);
+}
+
+
+/* =========================================================
+   ARCHIVE CARD
+   ========================================================= */
+
+.archive-card {
+  position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      #b9a88e,
+      #6f604e
+    );
+
+  color: #201b16;
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    0 25px 80px rgba(0,0,0,0.35);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.archive-card:hover {
+  transform:
+    translateY(-8px)
+    rotate(0deg);
+
+  box-shadow:
+    0 35px 100px rgba(0,0,0,0.5);
+}
+
+
+/* =========================================================
+   RED BUTTON
+   ========================================================= */
+
+.btn-red {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 13px 20px;
+
+  border: 1px solid var(--color-crimson);
+
+  background: var(--color-deep-red);
+
+  color: var(--color-ivory);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-red:hover {
+  background: var(--color-crimson);
+
+  box-shadow:
+    0 0 35px var(--color-red-glow);
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   GOLD BUTTON
+   ========================================================= */
+
+.btn-gold {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 13px 20px;
+
+  border: 1px solid var(--color-gold);
+
+  background: transparent;
+
+  color: var(--color-gold);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.btn-gold:hover {
+  background: var(--color-gold);
+
+  color: #090909;
+
+  box-shadow:
+    0 0 35px var(--color-gold-glow);
+}
+
+
+/* =========================================================
+   RED GLOW
+   ========================================================= */
+
+.red-glow {
+  box-shadow:
+    0 0 80px rgba(127, 29, 29, 0.15);
+}
+
+
+/* =========================================================
+   GOLD GLOW
+   ========================================================= */
+
+.gold-glow {
+  box-shadow:
+    0 0 80px rgba(196, 154, 90, 0.12);
+}
+
+
+/* =========================================================
+   CANDLE LIGHT
+   ========================================================= */
+
+.candle-glow {
+  box-shadow:
+    0 0 20px rgba(255, 177, 70, 0.35),
+    0 0 60px rgba(255, 147, 30, 0.12);
+}
+
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.divider {
+  width: 100%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--color-border),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   CUSTOM SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #292929;
+
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-deep-red);
+}
+
+
+/* =========================================================
+   SIMPLE MOTION
+   ========================================================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slowZoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes pulseRed {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 rgba(185, 28, 28, 0);
+  }
+
+  50% {
+    box-shadow:
+      0 0 35px rgba(185, 28, 28, 0.25);
+  }
+}
+
+@keyframes pulseGold {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 rgba(196, 154, 90, 0);
+  }
+
+  50% {
+    box-shadow:
+      0 0 35px rgba(196, 154, 90, 0.22);
+  }
+}
+
+.animate-fade-up {
+  animation:
+    fadeUp 1s cubic-bezier(.22,1,.36,1)
+    both;
+}
+
+.animate-fade-in {
+  animation:
+    fadeIn 1s ease both;
+}
+
+.animate-slow-zoom {
+  animation:
+    slowZoom 15s ease-in-out
+    alternate infinite;
+}
+
+.animate-pulse-red {
+  animation:
+    pulseRed 2.5s ease-in-out infinite;
+}
+
+.animate-pulse-gold {
+  animation:
+    pulseGold 2.5s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  :root {
+    --section-padding: 90px;
+  }
+
+  .site-container {
+    width: min(
+      calc(100% - 32px),
+      var(--max-width)
+    );
+  }
+
+  .display-title {
+    font-size: clamp(
+      44px,
+      12vw,
+      70px
+    );
+  }
+
+  .body-large {
+    font-size: 16px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  @keyframes scrollLine {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(250%);
+    opacity: 0;
+  }
+}
+}
