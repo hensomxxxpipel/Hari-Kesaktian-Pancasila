@@ -12,6 +12,7 @@ import TokohSection from "./sections/TokohSection";
 // import Footer from "./layouts/Footer";
 import ScrollProgress from "./components/ScrollProgress";
 import Atmosphere from "./components/Atmosphere";
+import MaknaSection from "./sections/MaknaSection";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <ScrollProgress />
       <main>
         <HeroSection />
+        <MaknaSection />
         <PoliticalContextSection />
         <AngkatanKelimaSection />
         <TokohSection />
