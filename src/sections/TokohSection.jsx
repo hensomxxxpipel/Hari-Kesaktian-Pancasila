@@ -4,12 +4,12 @@ const figures = [
   {
     number: "01",
     role: "MILITER",
-    name: "Letkol Untung",
+    name: "Untung",
     image: "/assets/tokoh-untung.png",
     description:
       "Komandan Batalyon I Resimen Tjakrabirawa yang tampil sebagai salah satu pemimpin gerakan yang menamakan dirinya Gerakan 30 September.",
     details: [
-      "Letkol Untung Syamsuri merupakan perwira dari Resimen Tjakrabirawa, satuan pengawal Presiden Soekarno.",
+      "Untung Syamsuri merupakan perwira dari Resimen Tjakrabirawa, satuan pengawal Presiden Soekarno.",
       "Pada 1965, ia tampil sebagai salah satu pemimpin gerakan yang kemudian dikenal sebagai Gerakan 30 September.",
     ],
   },
