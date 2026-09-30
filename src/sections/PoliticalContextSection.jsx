@@ -1,192 +1,318 @@
+import Reveal from "../components/Reveal";
+
 export default function PoliticalContextSection() {
   return (
     <section
       id="political-context"
-      className="relative min-h-screen overflow-hidden bg-[#0a0808] text-[#f2ede3]"
+      className="relative min-h-screen overflow-hidden bg-[#080808]"
     >
-      {/* Background atmosphere */}
-      <div className="absolute inset-0">
-        <div className="absolute left-[-10%] top-[15%] h-[500px] w-[500px] rounded-full bg-[#7f1d1d]/20 blur-[150px]" />
+      {/* =========================================================
+          BACKGROUND IMAGE
+      ========================================================= */}
+      <div className="absolute inset-0 overflow-hidden">
+        <picture>
+          {/* MOBILE */}
+          <source
+            media="(max-width: 767px)"
+            srcSet="/assets/bg2-mobile.png"
+          />
 
-        <div className="absolute bottom-[-20%] right-[-5%] h-[600px] w-[600px] rounded-full bg-[#7f1d1d]/10 blur-[160px]" />
+          {/* DESKTOP */}
+          <img
+            src="/assets/bg2-desktop.png"
+            alt=""
+            aria-hidden="true"
+            className="
+              h-full
+              w-full
+              object-cover
+              object-[80%_35%]
+              md:object-[65%_35%]
+            "
+          />
+        </picture>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-[#080808] via-transparent to-[#080808]" />
+        {/* =======================================================
+            MAIN OVERLAY
+            Mobile lebih gelap daripada desktop
+        ======================================================= */}
+        <div
+          className="
+            absolute
+            inset-0
+            bg-black/45
+            md:bg-black/25
+          "
+        />
+
+        {/* =======================================================
+            CINEMATIC GRADIENT
+        ======================================================= */}
+        <div
+          className="
+            absolute
+            inset-0
+
+            bg-gradient-to-b
+            from-black/40
+            via-black/45
+            to-black/75
+
+            md:bg-gradient-to-r
+            md:from-[#080808]/65
+            md:via-[#080808]/20
+            md:to-transparent
+          "
+        />
+
+        {/* =======================================================
+            BOTTOM FADE
+        ======================================================= */}
+        <div
+          className="
+            absolute
+            inset-x-0
+            bottom-0
+            h-[30%]
+            bg-gradient-to-t
+            from-[#080808]
+            via-[#080808]/50
+            to-transparent
+          "
+        />
+
+        {/* =======================================================
+            TOP FADE
+        ======================================================= */}
+        <div
+          className="
+            absolute
+            inset-x-0
+            top-0
+            h-[15%]
+            bg-gradient-to-b
+            from-[#080808]/45
+            to-transparent
+          "
+        />
       </div>
 
-      {/* Decorative grid */}
-      <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute left-[8%] top-0 h-full w-px bg-white/[0.05]" />
-        <div className="absolute right-[8%] top-0 h-full w-px bg-white/[0.05]" />
+      {/* =========================================================
+          CONTENT
+      ========================================================= */}
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          flex
+          min-h-screen
+          w-[min(1200px,calc(100%-48px))]
+          items-center
+          px-6
+          py-32
+          md:px-8
+        "
+      >
+        <div className="grid w-full grid-cols-1 gap-12 md:grid-cols-2 md:gap-20">
 
-        <div className="absolute left-0 right-0 top-[20%] h-px bg-white/[0.04]" />
-        <div className="absolute left-0 right-0 bottom-[20%] h-px bg-white/[0.04]" />
-      </div>
+          {/* =====================================================
+              LEFT SIDE — TITLE
+          ===================================================== */}
+          <div className="flex flex-col justify-center">
+            <Reveal direction="left">
+              <div className="mb-6 flex items-center gap-4">
+                <span className="h-px w-12 bg-[#c49a5a]" />
 
-      {/* Main container */}
-      <div className="relative z-10 mx-auto flex min-h-screen w-[min(1200px,calc(100%-48px))] items-center px-6 py-32">
-        <div className="grid w-full gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-24">
-
-          {/* LEFT */}
-          <div>
-            {/* Chapter */}
-            <div className="animate-fade-up mb-8 flex items-center gap-4">
-              <span className="h-px w-12 bg-[#c49a5a]" />
-
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c49a5a]">
-                Chapter 02
-              </span>
-            </div>
-
-            {/* Number */}
-            <div className="pointer-events-none absolute -left-2 top-[18%] hidden select-none lg:block">
-              <span className="font-display text-[clamp(180px,24vw,340px)] leading-none text-white/[0.025]">
-                02
-              </span>
-            </div>
-
-            {/* Title */}
-            <h2
-              className="animate-fade-up relative max-w-4xl font-display text-[clamp(48px,7vw,96px)] font-medium leading-[0.95] tracking-[-0.045em] text-[#f2ede3]"
-              style={{ animationDelay: "150ms" }}
-            >
-              INDONESIA
-              <br />
-
-              <span className="text-[#c49a5a]">
-                DI TENGAH
-              </span>
-              <br />
-
-              GEJOLAK POLITIK
-            </h2>
-
-            {/* Description */}
-            <p
-              className="animate-fade-up mt-10 max-w-2xl text-base leading-8 text-[#a8a29e] md:text-lg"
-              style={{ animationDelay: "300ms" }}
-            >
-              Tahun 1965 menjadi bagian dari periode ketika Indonesia
-              menghadapi ketegangan politik dan pertarungan pengaruh
-              antarkekuatan yang semakin tajam.
-            </p>
-
-            <p
-              className="animate-fade-up mt-5 max-w-2xl text-sm leading-7 text-[#73706c]"
-              style={{ animationDelay: "400ms" }}
-            >
-              Untuk memahami rangkaian peristiwa yang kemudian terjadi,
-              kita perlu melihat terlebih dahulu suasana politik yang
-              melatarbelakanginya.
-            </p>
-          </div>
-
-          {/* RIGHT */}
-          <div className="flex items-center lg:justify-end">
-            <div className="w-full max-w-md">
-
-              {/* Intro label */}
-              <div
-                className="animate-fade-up mb-6 flex items-center justify-between border-b border-white/10 pb-4"
-                style={{ animationDelay: "350ms" }}
-              >
-                <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#73706c]">
-                  Atmosfer
-                </span>
-
-                <span className="font-display text-sm text-[#c49a5a]">
-                  1965
+                <span
+                  className="
+                    text-[10px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.3em]
+                    text-[#c49a5a]
+                  "
+                >
+                  Chapter 02
                 </span>
               </div>
+            </Reveal>
 
-              {/* Keywords */}
-              <div className="space-y-3">
-
-                <div
-                  className="animate-fade-up group flex items-center justify-between border border-white/10 bg-white/[0.025] px-5 py-5 transition duration-300 hover:border-[#c49a5a]/40 hover:bg-[#c49a5a]/[0.04]"
-                  style={{ animationDelay: "450ms" }}
-                >
-                  <span className="font-display text-xl text-[#f2ede3]">
-                    Politik
-                  </span>
-
-                  <span className="text-xs text-[#73706c] transition group-hover:text-[#c49a5a]">
-                    01
-                  </span>
-                </div>
-
-                <div
-                  className="animate-fade-up group flex items-center justify-between border border-white/10 bg-white/[0.025] px-5 py-5 transition duration-300 hover:border-[#c49a5a]/40 hover:bg-[#c49a5a]/[0.04]"
-                  style={{ animationDelay: "550ms" }}
-                >
-                  <span className="font-display text-xl text-[#f2ede3]">
-                    Ketegangan
-                  </span>
-
-                  <span className="text-xs text-[#73706c] transition group-hover:text-[#c49a5a]">
-                    02
-                  </span>
-                </div>
-
-                <div
-                  className="animate-fade-up group flex items-center justify-between border border-white/10 bg-white/[0.025] px-5 py-5 transition duration-300 hover:border-[#c49a5a]/40 hover:bg-[#c49a5a]/[0.04]"
-                  style={{ animationDelay: "650ms" }}
-                >
-                  <span className="font-display text-xl text-[#f2ede3]">
-                    Ideologi
-                  </span>
-
-                  <span className="text-xs text-[#73706c] transition group-hover:text-[#c49a5a]">
-                    03
-                  </span>
-                </div>
-
-                <div
-                  className="animate-fade-up group flex items-center justify-between border border-white/10 bg-white/[0.025] px-5 py-5 transition duration-300 hover:border-[#c49a5a]/40 hover:bg-[#c49a5a]/[0.04]"
-                  style={{ animationDelay: "750ms" }}
-                >
-                  <span className="font-display text-xl text-[#f2ede3]">
-                    Kekuasaan
-                  </span>
-
-                  <span className="text-xs text-[#73706c] transition group-hover:text-[#c49a5a]">
-                    04
-                  </span>
-                </div>
-
-              </div>
-
-              {/* Bottom note */}
-              <div
-                className="animate-fade-up mt-8 flex items-start gap-4"
-                style={{ animationDelay: "850ms" }}
+            <Reveal delay={150}>
+              <h2
+                className="
+                  font-display
+                  text-[clamp(36px,5.5vw,76px)]
+                  font-medium
+                  leading-[1]
+                  tracking-[-0.035em]
+                  text-[#f2ede3]
+                  drop-shadow-[0_4px_25px_rgba(0,0,0,0.7)]
+                "
               >
-                <div className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#b91c1c]" />
+                Indonesia
+                <br />
+                di Tengah
+                <br />
+                <span className="text-[#c49a5a]">
+                  Gejolak Politik
+                </span>
+              </h2>
+            </Reveal>
 
-                <p className="text-xs leading-6 text-[#73706c]">
-                  Sebuah situasi politik yang kompleks menjadi konteks
-                  penting untuk memahami peristiwa yang akan kita telusuri.
+            <Reveal delay={300}>
+              <div className="mt-8 max-w-md">
+                <p
+                  className="
+                    text-sm
+                    leading-7
+                    text-[#d1cbc1]
+                    drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]
+                    md:text-base
+                  "
+                >
+                  Memahami konteks politik Indonesia pada masa
+                  Demokrasi Terpimpin menjadi bagian penting untuk
+                  melihat rangkaian peristiwa yang terjadi pada
+                  tahun 1965.
                 </p>
               </div>
-            </div>
+            </Reveal>
+          </div>
+
+          {/* =====================================================
+              RIGHT SIDE — CONTENT CARD
+          ===================================================== */}
+          <div className="flex items-center">
+            <Reveal direction="right" delay={200}>
+              <div
+                className="
+                  w-full
+                  max-w-xl
+                  border
+                  border-white/[0.08]
+                  bg-black/50
+                  p-6
+                  backdrop-blur-[4px]
+                  md:p-8
+                "
+              >
+                {/* Small heading */}
+                <div className="mb-7 flex items-center gap-3">
+                  <span className="h-2 w-2 rounded-full bg-[#c49a5a]" />
+
+                  <span
+                    className="
+                      text-[10px]
+                      font-semibold
+                      uppercase
+                      tracking-[0.25em]
+                      text-[#c49a5a]
+                    "
+                  >
+                    Konteks Politik
+                  </span>
+                </div>
+
+                {/* Paragraph 1 */}
+                <p
+                  className="
+                    text-sm
+                    leading-7
+                    text-[#d6d0c7]
+                    md:text-[15px]
+                    md:leading-8
+                  "
+                >
+                  Salah satu konsep politik penting pada masa
+                  Demokrasi Terpimpin adalah{" "}
+                  <span className="font-semibold text-[#c49a5a]">
+                    Nasakom
+                  </span>
+                  , singkatan dari Nasionalisme, Agama, dan
+                  Komunisme. Gagasan ini ditempatkan Soekarno
+                  sebagai upaya mempertemukan tiga kekuatan
+                  politik yang memiliki pengaruh besar pada masa
+                  itu.
+                </p>
+
+                {/* Divider */}
+                <div className="my-7 h-px w-full bg-white/[0.08]" />
+
+                {/* Paragraph 2 */}
+                <p
+                  className="
+                    text-sm
+                    leading-7
+                    text-[#d6d0c7]
+                    md:text-[15px]
+                    md:leading-8
+                  "
+                >
+                  Namun, hubungan antarkekuatan tersebut tidak
+                  selalu berjalan harmonis. Persaingan dan
+                  ketegangan antara kelompok politik, termasuk
+                  antara PKI dan sebagian kalangan militer,
+                  menjadi salah satu bagian dari konteks politik
+                  yang perlu dipahami ketika menelusuri
+                  peristiwa 1965.
+                </p>
+
+                {/* Bottom metadata */}
+                <div
+                  className="
+                    mt-8
+                    flex
+                    items-center
+                    justify-between
+                    border-t
+                    border-white/[0.08]
+                    pt-5
+                  "
+                >
+                  <span
+                    className="
+                      text-[9px]
+                      uppercase
+                      tracking-[0.25em]
+                      text-[#9a948c]
+                    "
+                  >
+                    Indonesia
+                  </span>
+
+                  <span
+                    className="
+                      font-display
+                      text-lg
+                      text-[#c49a5a]
+                    "
+                  >
+                    1960s
+                  </span>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>
 
-      {/* Bottom transition */}
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#080808] to-transparent" />
-
-      {/* Section marker */}
-      <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-3 md:flex">
-        <span className="text-[9px] uppercase tracking-[0.3em] text-[#73706c]">
-          02
-        </span>
-
-        <span className="h-px w-16 bg-white/10" />
-
-        <span className="text-[9px] uppercase tracking-[0.3em] text-[#73706c]">
-          Context
-        </span>
-      </div>
+      {/* =========================================================
+          SECTION BOTTOM TRANSITION
+      ========================================================= */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          bottom-0
+          left-0
+          right-0
+          h-24
+          bg-gradient-to-t
+          from-[#080808]
+          to-transparent
+        "
+      />
     </section>
   );
 }

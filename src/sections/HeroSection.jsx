@@ -1,81 +1,290 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Reveal from "../components/Reveal";
 
 export default function HeroSection() {
   const [scrolled, setScrolled] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const audioRef = useRef(null);
+
+  // =====================================================
+  // SCROLL STATE
+  // =====================================================
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 80);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+  // =====================================================
+  // AUTOPLAY AUDIO
+  // =====================================================
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    // Volume dibuat cukup pelan agar tidak mengejutkan user
+    audio.volume = 0.35;
+
+    const startAudio = async () => {
+      try {
+        await audio.play();
+        setIsPlaying(true);
+      } catch (error) {
+        // Browser dapat memblokir autoplay
+        console.log(
+          "Autoplay diblokir oleh browser:",
+          error
+        );
+
+        setIsPlaying(false);
+      }
+    };
+
+    startAudio();
+  }, []);
+
+  // =====================================================
+  // AUDIO CONTROL
+  // =====================================================
+
+  const toggleAudio = async () => {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+        setIsPlaying(true);
+      } catch (error) {
+        console.error(
+          "Audio gagal diputar:",
+          error
+        );
+      }
+    } else {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  // =====================================================
+  // AUDIO EVENT
+  // =====================================================
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
+
+    const handlePause = () => {
+      setIsPlaying(false);
+    };
+
+    const handleEnded = () => {
+      setIsPlaying(false);
+    };
+
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+
+    return () => {
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, []);
+
+  // =====================================================
+  // CLEANUP AUDIO
+  // =====================================================
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
+
   return (
     <section
       id="hero"
-      className="relative min-h-screen overflow-hidden bg-[#080808]"
+      className="
+        relative
+        min-h-screen
+        overflow-hidden
+        bg-[#080808]
+      "
     >
       {/* =====================================================
-          BACKGROUND
+          AUDIO
       ===================================================== */}
 
-      <div className="absolute inset-0">
+      <audio
+        ref={audioRef}
+        src="/audio/gugur-bunga.mp3"
+        autoPlay
+        loop
+        preload="auto"
+      />
 
-        {/* Red atmospheric glow */}
+      {/* =====================================================
+          BACKGROUND IMAGE
+      ===================================================== */}
+
+      <div className="absolute inset-0 overflow-hidden">
+        <img
+          src="/assets/bg1.png"
+          alt=""
+          aria-hidden="true"
+          className={`
+            absolute
+            inset-0
+            h-full
+            w-full
+            object-cover
+            object-[82%_center]
+            md:object-center
+            transition-transform
+            duration-[2500ms]
+            ease-out
+            ${
+              scrolled
+                ? "scale-[1.06]"
+                : "scale-100"
+            }
+          `}
+        />
+
+        {/* =================================================
+            GENERAL DARK OVERLAY
+        ================================================= */}
+
         <div
           className="
             absolute
-            left-1/2
-            top-[15%]
-            h-[500px]
-            w-[500px]
-            -translate-x-1/2
-            rounded-full
-            bg-[#7f1d1d]/20
-            blur-[140px]
+            inset-0
+            bg-black/35
           "
         />
 
-        {/* Bottom darkness */}
+        {/* =================================================
+            LEFT DARKNESS
+        ================================================= */}
+
+        <div
+          className="
+            absolute
+            inset-0
+            bg-gradient-to-r
+            from-[#080808]/95
+            via-[#080808]/65
+            to-transparent
+          "
+        />
+
+        {/* =================================================
+            BOTTOM DARKNESS
+        ================================================= */}
+
         <div
           className="
             absolute
             inset-x-0
             bottom-0
-            h-[45%]
+            h-[55%]
             bg-gradient-to-t
             from-[#080808]
-            via-[#080808]/80
+            via-[#080808]/65
             to-transparent
           "
         />
 
-        {/* Red light from bottom */}
+        {/* =================================================
+            TOP DARKNESS
+        ================================================= */}
+
         <div
           className="
             absolute
-            bottom-[-200px]
-            left-1/2
+            inset-x-0
+            top-0
+            h-[30%]
+            bg-gradient-to-b
+            from-[#080808]/65
+            to-transparent
+          "
+        />
+
+        {/* =================================================
+            RED ATMOSPHERE
+        ================================================= */}
+
+        <div
+          className={`
+            absolute
+            left-[45%]
+            top-[20%]
             h-[500px]
-            w-[800px]
+            w-[500px]
             -translate-x-1/2
             rounded-full
-            bg-[#7f1d1d]/15
-            blur-[120px]
-          "
+            bg-[#7f1d1d]/10
+            blur-[140px]
+            transition-all
+            duration-[2000ms]
+            ${
+              scrolled
+                ? "scale-125 opacity-50"
+                : "scale-100 opacity-100"
+            }
+          `}
         />
       </div>
 
       {/* =====================================================
-          DECORATIVE LINES
+          CINEMATIC VIGNETTE
       ===================================================== */}
 
-      <div className="pointer-events-none absolute inset-0">
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.42)_100%)]
+        "
+      />
+
+      {/* =====================================================
+          DECORATIVE GRID
+      ===================================================== */}
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+        "
+      >
+        {/* Left vertical line */}
 
         <div
           className="
@@ -88,6 +297,8 @@ export default function HeroSection() {
           "
         />
 
+        {/* Right vertical line */}
+
         <div
           className="
             absolute
@@ -98,6 +309,8 @@ export default function HeroSection() {
             bg-white/[0.05]
           "
         />
+
+        {/* Top horizontal line */}
 
         <div
           className="
@@ -110,12 +323,14 @@ export default function HeroSection() {
           "
         />
 
+        {/* Bottom horizontal line */}
+
         <div
           className="
             absolute
+            bottom-[18%]
             left-0
             right-0
-            bottom-[18%]
             h-px
             bg-white/[0.04]
           "
@@ -140,203 +355,215 @@ export default function HeroSection() {
           py-32
         "
       >
+        {/* ===================================================
+            TOP LABEL
+        =================================================== */}
 
-        {/* Top label */}
-
-        <div
-          className="
-            animate-fade-up
-            mb-8
-            flex
-            items-center
-            gap-4
-          "
-        >
-          <span
+        <Reveal direction="left">
+          <div
             className="
-              h-px
-              w-12
-              bg-[#c49a5a]
-            "
-          />
-
-          <span
-            className="
-              text-[10px]
-              font-semibold
-              uppercase
-              tracking-[0.3em]
-              text-[#c49a5a]
-            "
-          >
-            Sebuah perjalanan sejarah
-          </span>
-        </div>
-
-
-        {/* =================================================
-            TITLE
-        ================================================= */}
-
-        <div className="max-w-5xl">
-
-          <h1
-            className="
-              animate-fade-up
-              font-display
-              text-[clamp(56px,9vw,130px)]
-              font-medium
-              leading-[0.86]
-              tracking-[-0.055em]
-              text-[#f2ede3]
-            "
-            style={{
-              animationDelay: "150ms",
-            }}
-          >
-            HARI
-            <br />
-
-            <span className="text-[#c49a5a]">
-              KESAKTIAN
-            </span>
-
-            <br />
-
-            PANCASILA
-          </h1>
-
-        </div>
-
-
-        {/* =================================================
-            DESCRIPTION
-        ================================================= */}
-
-        <div
-          className="
-            animate-fade-up
-            mt-10
-            max-w-xl
-          "
-          style={{
-            animationDelay: "300ms",
-          }}
-        >
-          <p
-            className="
-              text-base
-              leading-8
-              text-[#a8a29e]
-              md:text-lg
-            "
-          >
-            Menelusuri kembali sebuah rangkaian peristiwa
-            yang terjadi di tengah gejolak politik Indonesia
-            pada tahun 1965, serta bagaimana peristiwa tersebut
-            menjadi bagian dari perjalanan sejarah bangsa.
-          </p>
-        </div>
-
-
-        {/* =================================================
-            CTA
-        ================================================= */}
-
-        <div
-          className="
-            animate-fade-up
-            mt-10
-            flex
-            flex-wrap
-            items-center
-            gap-4
-          "
-          style={{
-            animationDelay: "450ms",
-          }}
-        >
-
-          <a
-            href="#political-context"
-            className="
-              group
-              inline-flex
+              mb-8
+              flex
               items-center
               gap-4
-              border
-              border-[#c49a5a]
-              bg-[#c49a5a]
-              px-6
-              py-4
-              text-[10px]
-              font-bold
-              uppercase
-              tracking-[0.2em]
-              text-[#080808]
-              transition-all
-              duration-300
-              hover:bg-[#dfbd7a]
-              hover:shadow-[0_0_40px_rgba(196,154,90,0.2)]
-            "
-          >
-            Mulai Perjalanan
-
-            <span
-              className="
-                transition-transform
-                duration-300
-                group-hover:translate-x-1
-              "
-            >
-              →
-            </span>
-          </a>
-
-
-          <button
-            type="button"
-            className="
-              inline-flex
-              items-center
-              gap-3
-              px-4
-              py-4
-              text-[10px]
-              font-semibold
-              uppercase
-              tracking-[0.2em]
-              text-[#a8a29e]
-              transition
-              duration-300
-              hover:text-[#f2ede3]
             "
           >
             <span
               className="
-                flex
-                h-7
-                w-7
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-white/20
-                text-[9px]
+                h-px
+                w-12
+                bg-[#c49a5a]
+              "
+            />
+
+            <span
+              className="
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.3em]
+                text-[#c49a5a]
               "
             >
-              ♪
+              Sebuah perjalanan sejarah
             </span>
+          </div>
+        </Reveal>
 
-            Dengarkan suasana
-          </button>
+        {/* ===================================================
+            TITLE
+        =================================================== */}
 
+        <div className="max-w-5xl">
+          <Reveal delay={150}>
+            <h1
+              className="
+                font-display
+                text-[clamp(56px,9vw,130px)]
+                font-medium
+                leading-[0.86]
+                tracking-[-0.055em]
+                text-[#f2ede3]
+                drop-shadow-[0_4px_30px_rgba(0,0,0,0.45)]
+              "
+            >
+              HARI
+              <br />
+
+              <span className="text-[#c49a5a]">
+                KESAKTIAN
+              </span>
+
+              <br />
+
+              PANCASILA
+            </h1>
+          </Reveal>
         </div>
 
+        {/* ===================================================
+            DESCRIPTION
+        =================================================== */}
 
-        {/* =================================================
+        <Reveal delay={300}>
+          <div
+            className="
+              mt-10
+              max-w-xl
+            "
+          >
+            <p
+              className="
+                text-base
+                leading-8
+                text-[#d1cbc1]
+                drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]
+                md:text-lg
+              "
+            >
+              Menelusuri kembali sebuah rangkaian peristiwa
+              yang terjadi di tengah gejolak politik Indonesia
+              pada tahun 1965, serta bagaimana peristiwa tersebut
+              menjadi bagian dari perjalanan sejarah bangsa.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* ===================================================
+            CTA
+        =================================================== */}
+
+        <Reveal delay={450}>
+          <div
+            className="
+              mt-10
+              flex
+              flex-wrap
+              items-center
+              gap-4
+            "
+          >
+            {/* =================================================
+                PRIMARY CTA
+            ================================================= */}
+
+            <a
+              href="#political-context"
+              className="
+                group
+                inline-flex
+                items-center
+                gap-4
+                border
+                border-[#c49a5a]
+                bg-[#c49a5a]
+                px-6
+                py-4
+                text-[10px]
+                font-bold
+                uppercase
+                tracking-[0.2em]
+                text-[#080808]
+                transition-all
+                duration-300
+                hover:bg-[#dfbd7a]
+                hover:shadow-[0_0_40px_rgba(196,154,90,0.25)]
+              "
+            >
+              Mulai Perjalanan
+
+              <span
+                className="
+                  transition-transform
+                  duration-300
+                  group-hover:translate-x-1
+                "
+              >
+                →
+              </span>
+            </a>
+
+            {/* =================================================
+                AUDIO BUTTON
+            ================================================= */}
+
+            <button
+              type="button"
+              onClick={toggleAudio}
+              aria-label={
+                isPlaying
+                  ? "Matikan suara"
+                  : "Dengarkan suasana"
+              }
+              className="
+                group
+                inline-flex
+                items-center
+                gap-3
+                px-4
+                py-4
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.2em]
+                text-[#d0cbc2]
+                transition
+                duration-300
+                hover:text-[#f2ede3]
+              "
+            >
+              <span
+                className={`
+                  flex
+                  h-7
+                  w-7
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  text-[9px]
+                  transition-all
+                  duration-300
+                  ${
+                    isPlaying
+                      ? "border-[#c49a5a] text-[#c49a5a]"
+                      : "border-white/25 text-[#d0cbc2]"
+                  }
+                `}
+              >
+                {isPlaying ? "Ⅱ" : "♪"}
+              </span>
+
+              {isPlaying
+                ? "Matikan suara"
+                : "Dengarkan suasana"}
+            </button>
+          </div>
+        </Reveal>
+
+        {/* ===================================================
             BOTTOM INFORMATION
-        ================================================= */}
+        =================================================== */}
 
         <div
           className="
@@ -351,37 +578,40 @@ export default function HeroSection() {
             md:right-12
           "
         >
+          {/* =================================================
+              PERIOD
+          ================================================= */}
 
-          {/* Date */}
+          <Reveal delay={600}>
+            <div className="hidden md:block">
+              <p
+                className="
+                  mb-1
+                  text-[9px]
+                  uppercase
+                  tracking-[0.25em]
+                  text-[#9a948c]
+                "
+              >
+                Periode
+              </p>
 
-          <div className="hidden md:block">
+              <p
+                className="
+                  font-display
+                  text-xl
+                  text-[#f2ede3]
+                  drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]
+                "
+              >
+                1965 — 1967
+              </p>
+            </div>
+          </Reveal>
 
-            <p
-              className="
-                mb-1
-                text-[9px]
-                uppercase
-                tracking-[0.25em]
-                text-[#73706c]
-              "
-            >
-              Periode
-            </p>
-
-            <p
-              className="
-                font-display
-                text-xl
-                text-[#f2ede3]
-              "
-            >
-              1965 — 1967
-            </p>
-
-          </div>
-
-
-          {/* Scroll indicator */}
+          {/* =================================================
+              SCROLL INDICATOR
+          ================================================= */}
 
           <div
             className="
@@ -390,7 +620,6 @@ export default function HeroSection() {
               -translate-x-1/2
             "
           >
-
             <div
               className="
                 flex
@@ -399,13 +628,12 @@ export default function HeroSection() {
                 gap-3
               "
             >
-
               <span
                 className="
                   text-[9px]
                   uppercase
                   tracking-[0.3em]
-                  text-[#73706c]
+                  text-[#9a948c]
                 "
               >
                 Scroll
@@ -417,7 +645,7 @@ export default function HeroSection() {
                   h-12
                   w-px
                   overflow-hidden
-                  bg-white/10
+                  bg-white/15
                 "
               >
                 <div
@@ -432,120 +660,44 @@ export default function HeroSection() {
                   "
                 />
               </div>
-
             </div>
-
           </div>
 
+          {/* =================================================
+              CHAPTER
+          ================================================= */}
 
-          {/* Section number */}
+          <Reveal
+            delay={650}
+            direction="right"
+          >
+            <div className="hidden text-right md:block">
+              <p
+                className="
+                  mb-1
+                  text-[9px]
+                  uppercase
+                  tracking-[0.25em]
+                  text-[#9a948c]
+                "
+              >
+                Chapter
+              </p>
 
-          <div className="hidden text-right md:block">
-
-            <p
-              className="
-                mb-1
-                text-[9px]
-                uppercase
-                tracking-[0.25em]
-                text-[#73706c]
-              "
-            >
-              Chapter
-            </p>
-
-            <p
-              className="
-                font-display
-                text-3xl
-                text-[#c49a5a]
-              "
-            >
-              01
-            </p>
-
-          </div>
-
+              <p
+                className="
+                  font-display
+                  text-3xl
+                  text-[#c49a5a]
+                  drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]
+                "
+              >
+                01
+              </p>
+            </div>
+          </Reveal>
         </div>
-
       </div>
-
-
-      {/* =====================================================
-          CINEMATIC CENTER OBJECT
-      ===================================================== */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          bottom-[12%]
-          right-[7%]
-          hidden
-          h-[500px]
-          w-[360px]
-          lg:block
-        "
-      >
-
-        {/* Outer glow */}
-
-        <div
-          className="
-            absolute
-            left-1/2
-            top-1/2
-            h-[380px]
-            w-[380px]
-            -translate-x-1/2
-            -translate-y-1/2
-            rounded-full
-            bg-[#7f1d1d]/10
-            blur-[100px]
-          "
-        />
-
-        {/* Abstract monument silhouette */}
-
-        <div
-          className="
-            absolute
-            bottom-0
-            left-1/2
-            h-[370px]
-            w-[170px]
-            -translate-x-1/2
-            bg-gradient-to-t
-            from-black
-            via-[#181313]
-            to-transparent
-            opacity-90
-          "
-          style={{
-            clipPath:
-              "polygon(42% 0%, 58% 0%, 65% 30%, 100% 100%, 0% 100%, 35% 30%)",
-          }}
-        />
-
-        {/* Vertical light */}
-
-        <div
-          className="
-            absolute
-            bottom-0
-            left-1/2
-            h-[360px]
-            w-px
-            -translate-x-1/2
-            bg-gradient-to-t
-            from-[#c49a5a]/30
-            via-[#c49a5a]/5
-            to-transparent
-          "
-        />
-
-      </div>
-
 
       {/* =====================================================
           SCROLL FADE
@@ -564,7 +716,6 @@ export default function HeroSection() {
           to-transparent
         "
       />
-
     </section>
   );
 }

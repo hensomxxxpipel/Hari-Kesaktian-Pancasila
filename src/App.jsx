@@ -10,12 +10,16 @@ import PoliticalContextSection from "./sections/PoliticalContextSection";
 import SiaranSection from "./sections/SiaranSection";
 import TokohSection from "./sections/TokohSection";
 // import Footer from "./layouts/Footer";
-
+import ScrollProgress from "./components/ScrollProgress";
+import Atmosphere from "./components/Atmosphere";
 
 function App() {
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="site-shell min-h-screen overflow-x-hidden">
+     <Atmosphere />
+     <div className="site-content">
       {/* <Navbar /> */}
+      <ScrollProgress />
       <main>
         <HeroSection />
         <PoliticalContextSection />
@@ -29,6 +33,7 @@ function App() {
         <DampakSection />
       </main>
       {/* <Footer /> */}
+     </div>
     </div>
 
   );
