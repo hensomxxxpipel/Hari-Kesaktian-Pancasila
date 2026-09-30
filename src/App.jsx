@@ -13,6 +13,7 @@ import TokohSection from "./sections/TokohSection";
 import ScrollProgress from "./components/ScrollProgress";
 import Atmosphere from "./components/Atmosphere";
 import MaknaSection from "./sections/MaknaSection";
+import HeroTokoh from "./sections/HeroTokoh";
 
 function App() {
   return (
@@ -21,19 +22,20 @@ function App() {
      <div className="site-content">
       {/* <Navbar /> */}
       <ScrollProgress />
-      <main>
-        <HeroSection />
-        <MaknaSection />
-        <PoliticalContextSection />
-        <AngkatanKelimaSection />
-        <TokohSection />
-        <DewanJenderalSection />
-        <MalamSection />
-        <SiaranSection />
-        <KorbanSection />
-        <PahlawanSection />
-        <DampakSection />
-      </main>
+        <main>
+          <HeroSection />
+          <MaknaSection />
+          <PoliticalContextSection />
+          <AngkatanKelimaSection />
+          <HeroTokoh />
+          <TokohSection />
+          <DewanJenderalSection />
+          <MalamSection />
+          <SiaranSection />
+          <KorbanSection />
+          <PahlawanSection />
+          <DampakSection />
+        </main>
       {/* <Footer /> */}
      </div>
     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const broadcastLines = [
   {
@@ -23,11 +23,16 @@ function SiaranSection() {
   const [playing, setPlaying] = useState(false);
   const [activeLine, setActiveLine] = useState(0);
 
+  const audioRef = useRef(null);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
+        setVisible(entry.isIntersecting);
+
+        if (!entry.isIntersecting && audioRef.current) {
+          audioRef.current.pause();
+          setPlaying(false);
         }
       },
       { threshold: 0.2 }
@@ -42,22 +47,119 @@ function SiaranSection() {
     };
   }, []);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    const handlePlay = () => {
+      setPlaying(true);
+    };
+
+    const handlePause = () => {
+      setPlaying(false);
+    };
+
+    const handleEnded = () => {
+      setPlaying(false);
+    };
+
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+
+    return () => {
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, []);
+
+  const toggleAudio = async () => {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+      } catch (error) {
+        console.error("Audio gagal diputar:", error);
+      }
+    } else {
+      audio.pause();
+    }
+  };
+
   return (
     <section
       id="siaran"
       className="
-        relative min-h-screen overflow-hidden
+        relative
+        min-h-screen
+        overflow-hidden
         bg-[#100d0a]
         text-[#f2ede3]
       "
     >
+      {/* =====================================
+          BACKGROUND IMAGE
+      ====================================== */}
+
+      <div className="absolute inset-0">
+        <img
+          src="/assets/bg7.png"
+          alt=""
+          aria-hidden="true"
+          className="
+            h-full
+            w-full
+            object-cover
+            object-center
+          "
+        />
+
+        <div className="absolute inset-0 bg-[#080604]/35" />
+
+        <div
+          className="
+            absolute
+            inset-0
+            bg-gradient-to-r
+            from-[#080604]/95
+            via-[#080604]/75
+            to-[#080604]/45
+          "
+        />
+
+        <div
+          className="
+            absolute
+            inset-0
+            bg-gradient-to-b
+            from-[#080604]/75
+            via-transparent
+            to-[#080604]/90
+          "
+        />
+
+        <div
+          className="
+            absolute
+            inset-0
+            bg-[radial-gradient(circle_at_75%_45%,rgba(127,29,29,0.16),transparent_42%)]
+          "
+        />
+      </div>
+
       {/* =====================================
           ARCHIVE ATMOSPHERE
       ====================================== */}
 
       <div
         className="
-          pointer-events-none absolute
+          pointer-events-none
+          absolute
           inset-0
           opacity-40
           bg-[radial-gradient(circle_at_50%_30%,rgba(128,106,74,0.12),transparent_45%)]
@@ -66,9 +168,12 @@ function SiaranSection() {
 
       <div
         className="
-          pointer-events-none absolute
-          right-[-180px] top-1/3
-          h-[500px] w-[500px]
+          pointer-events-none
+          absolute
+          right-[-180px]
+          top-1/3
+          h-[500px]
+          w-[500px]
           rounded-full
           bg-[#7f1d1d]/10
           blur-[160px]
@@ -88,8 +193,10 @@ function SiaranSection() {
       {/* Giant number */}
       <div
         className="
-          pointer-events-none absolute
-          right-[-30px] top-8
+          pointer-events-none
+          absolute
+          right-[-30px]
+          top-8
           select-none
           font-display
           text-[20rem]
@@ -101,6 +208,13 @@ function SiaranSection() {
         07
       </div>
 
+      {/* Audio */}
+      <audio
+        ref={audioRef}
+        src="/audio/Siaran-Asli-Radio-RRI-1-oktober-1965.mp3"
+        preload="metadata"
+      />
+
       {/* =====================================
           CONTENT
       ====================================== */}
@@ -110,8 +224,11 @@ function SiaranSection() {
         {/* Chapter */}
         <div
           className={`
-            flex items-center gap-4
-            transition-all duration-1000
+            flex
+            items-center
+            gap-4
+            transition-all
+            duration-1000
             ${
               visible
                 ? "translate-y-0 opacity-100"
@@ -138,7 +255,8 @@ function SiaranSection() {
 
           <div
             className={`
-              transition-all duration-[1300ms]
+              transition-all
+              duration-[1300ms]
               ${
                 visible
                   ? "translate-y-0 opacity-100"
@@ -185,7 +303,9 @@ function SiaranSection() {
 
           <div
             className={`
-              transition-all duration-[1400ms] delay-200
+              transition-all
+              duration-[1400ms]
+              delay-200
               ${
                 visible
                   ? "translate-x-0 opacity-100"
@@ -193,7 +313,7 @@ function SiaranSection() {
               }
             `}
           >
-            <div className="relative border border-[#806a4a]/30 bg-[#0b0b0b] p-7 md:p-9">
+            <div className="relative border border-[#806a4a]/30 bg-[#0b0b0b]/90 p-7 backdrop-blur-sm md:p-9">
 
               {/* Radio top */}
               <div className="flex items-center justify-between border-b border-white/10 pb-5">
@@ -209,7 +329,9 @@ function SiaranSection() {
 
                 <div
                   className={`
-                    h-2 w-2 rounded-full
+                    h-2
+                    w-2
+                    rounded-full
                     ${
                       playing
                         ? "animate-pulse bg-[#b91c1c]"
@@ -223,15 +345,15 @@ function SiaranSection() {
               <div className="py-12 text-center">
 
                 <p className="font-mono text-[9px] uppercase tracking-[0.4em] text-[#52504d]">
-                  FREQUENCY
+                  ARCHIVE
                 </p>
 
-                <p className="mt-3 font-mono text-5xl tracking-[0.08em] text-[#f2ede3]">
-                  92.4
+                <p className="mt-3 font-mono text-4xl tracking-[0.08em] text-[#f2ede3] md:text-5xl">
+                  RRI
                 </p>
 
                 <p className="mt-2 font-mono text-[9px] tracking-[0.3em] text-[#806a4a]">
-                  ARCHIVAL SIGNAL
+                  01 OKTOBER 1965
                 </p>
 
                 {/* waveform */}
@@ -241,7 +363,8 @@ function SiaranSection() {
                       key={index}
                       className={`
                         w-[2px]
-                        transition-all duration-300
+                        transition-all
+                        duration-300
                         ${
                           playing
                             ? "bg-[#b91c1c]"
@@ -261,18 +384,25 @@ function SiaranSection() {
 
               {/* Play button */}
               <button
-                onClick={() => setPlaying(!playing)}
+                type="button"
+                onClick={toggleAudio}
                 className="
-                  flex w-full
-                  items-center justify-center gap-4
-                  border border-white/10
+                  flex
+                  w-full
+                  items-center
+                  justify-center
+                  gap-4
+                  border
+                  border-white/10
                   bg-[#111111]
-                  px-6 py-5
+                  px-6
+                  py-5
                   text-[10px]
                   uppercase
                   tracking-[0.3em]
                   text-[#a8a29e]
-                  transition-all duration-500
+                  transition-all
+                  duration-500
                   hover:border-[#b91c1c]
                   hover:bg-[#170909]
                   hover:text-[#f2ede3]
@@ -288,9 +418,9 @@ function SiaranSection() {
               </button>
 
               <p className="mt-4 text-center text-[8px] leading-5 text-[#52504d]">
-                AUDIO ARSIP / REKONSTRUKSI
+                AUDIO ARSIP
                 <br />
-                Sumber audio akan ditambahkan pada tahap final.
+                Siaran Radio Republik Indonesia
               </p>
             </div>
           </div>
@@ -322,14 +452,16 @@ function SiaranSection() {
             {broadcastLines.map((line, index) => (
               <button
                 key={line.title}
+                type="button"
                 onClick={() => setActiveLine(index)}
                 className={`
                   group
                   min-h-[250px]
-                  bg-[#0b0b0b]
+                  bg-[#0b0b0b]/90
                   p-7
                   text-left
-                  transition-all duration-500
+                  transition-all
+                  duration-500
                   ${
                     activeLine === index
                       ? "bg-[#180b0b]"
@@ -340,7 +472,8 @@ function SiaranSection() {
                 <div className="flex items-center justify-between">
                   <span
                     className={`
-                      font-mono text-xs
+                      font-mono
+                      text-xs
                       ${
                         activeLine === index
                           ? "text-[#b91c1c]"
@@ -380,47 +513,16 @@ function SiaranSection() {
           <p
             key={activeLine}
             className="
-              mt-4 max-w-3xl
-              text-sm leading-8 text-[#a8a29e]
+              mt-4
+              max-w-3xl
+              text-sm
+              leading-8
+              text-[#a8a29e]
               animate-fade-up
             "
           >
             {broadcastLines[activeLine].text}
           </p>
-        </div>
-
-        {/* =====================================
-            HISTORICAL NOTE
-        ====================================== */}
-
-        <div
-          className="
-            mt-20
-            border border-white/10
-            bg-[#0b0b0b]
-            p-7
-            md:p-9
-          "
-        >
-          <div className="flex gap-5">
-            <span className="font-display text-2xl text-[#b91c1c]">
-              !
-            </span>
-
-            <div>
-              <p className="text-[9px] uppercase tracking-[0.35em] text-[#806a4a]">
-                Catatan
-              </p>
-
-              <p className="mt-4 max-w-4xl text-sm leading-7 text-[#73706c]">
-                Audio yang nantinya digunakan harus dibedakan antara
-                rekaman arsip asli dan rekonstruksi. Jika rekaman asli
-                tidak tersedia atau tidak dapat digunakan, pengalaman
-                audio dapat dibuat sebagai rekonstruksi yang diberi label
-                secara jelas.
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Bottom */}

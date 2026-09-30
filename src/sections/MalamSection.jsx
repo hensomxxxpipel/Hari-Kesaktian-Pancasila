@@ -1,462 +1,526 @@
 import { useEffect, useState } from "react";
 
-const officers = [
-  {
-    number: "01",
-    name: "Jenderal Ahmad Yani",
-    role: "Menteri / Panglima Angkatan Darat",
-    short: "Menjadi salah satu sasaran utama operasi penculikan.",
-    detail:
-      "Pasukan datang ke kediaman Ahmad Yani pada dini hari 1 Oktober 1965. Ia diminta ikut dengan alasan akan menghadap Presiden. Peristiwa di kediamannya kemudian berakhir dengan tewasnya Ahmad Yani.",
-  },
-  {
-    number: "02",
-    name: "Mayjen R. Soeprapto",
-    role: "Deputi II Men/Pangad",
-    short: "Dibawa dari kediamannya menuju Lubang Buaya.",
-    detail:
-      "Soeprapto termasuk perwira tinggi Angkatan Darat yang menjadi sasaran penculikan. Ia kemudian dibawa ke kawasan Lubang Buaya dan menjadi salah satu korban yang ditemukan di sana.",
-  },
-  {
-    number: "03",
-    name: "Mayjen M.T. Haryono",
-    role: "Deputi III Men/Pangad",
-    short: "Menjadi korban dalam operasi penculikan pada dini hari.",
-    detail:
-      "M.T. Haryono menjadi salah satu sasaran operasi pada dini hari 1 Oktober 1965. Ia kemudian menjadi salah satu korban yang ditemukan di Lubang Buaya.",
-  },
-  {
-    number: "04",
-    name: "Mayjen S. Parman",
-    role: "Asisten I Men/Pangad",
-    short: "Dibawa dari kediamannya pada pagi hari.",
-    detail:
-      "S. Parman disergap di kediamannya pada sekitar pukul 04.00. Rombongan yang datang menggunakan seragam militer membawanya pergi dari rumah.",
-  },
-  {
-    number: "05",
-    name: "Brigjen D.I. Panjaitan",
-    role: "Asisten IV Men/Pangad",
-    short: "Menjadi sasaran operasi di kediamannya.",
-    detail:
-      "Pasukan datang ke kediaman D.I. Panjaitan pada dini hari. Setelah terjadi perlawanan, Panjaitan ditembak dan kemudian dibawa oleh rombongan tersebut.",
-  },
-  {
-    number: "06",
-    name: "Brigjen Sutoyo",
-    role: "Oditur Jenderal / Inspektur Kehakiman AD",
-    short: "Dibawa dari kediamannya pada pagi hari.",
-    detail:
-      "Sutoyo didatangi rombongan yang menyampaikan bahwa ia diminta menghadap Presiden. Ia kemudian dibawa menggunakan kendaraan menuju kawasan Lubang Buaya.",
-  },
-  {
-    number: "07",
-    name: "Lettu Pierre A. Tendean",
-    role: "Ajudan A.H. Nasution",
-    short: "Ditangkap setelah disangka sebagai A.H. Nasution.",
-    detail:
-      "Pierre Tendean merupakan ajudan A.H. Nasution. Ketika pasukan datang mencari Nasution, Tendean tertangkap dan disangka sebagai jenderal tersebut. Nasution berhasil melarikan diri.",
-  },
-];
-
 function MalamSection() {
-  const [visible, setVisible] = useState(false);
-  const [activeOfficer, setActiveOfficer] = useState(null);
+  const [isActive, setIsActive] = useState(false);
+  const [sceneVisible, setSceneVisible] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-        }
-      },
-      { threshold: 0.15 }
-    );
-
     const section = document.getElementById("malam");
 
-    if (section) observer.observe(section);
+    if (!section) return;
 
-    return () => {
-      if (section) observer.unobserve(section);
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsActive(entry.isIntersecting);
+      },
+      {
+        threshold: 0.18,
+      }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!isActive) {
+      setSceneVisible(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setSceneVisible(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [isActive]);
 
   return (
     <section
       id="malam"
       className="
-        relative min-h-screen overflow-hidden
-        bg-[#050505]
+        relative
+        min-h-screen
+        overflow-hidden
+        bg-[#070707]
         text-[#f2ede3]
       "
     >
-      {/* =====================================
-          ATMOSPHERE
-      ====================================== */}
-
+      {/* atmosphere */}
       <div
         className="
-          pointer-events-none absolute
-          left-1/2 top-1/3
-          h-[500px] w-[500px]
-          -translate-x-1/2
+          pointer-events-none
+          absolute
+          -left-[180px]
+          top-[15%]
+          h-[600px]
+          w-[600px]
           rounded-full
-          bg-[#7f1d1d]/5
+          bg-[#7f1d1d]/10
           blur-[180px]
         "
       />
 
       <div
         className="
-          pointer-events-none absolute
-          inset-0
-          bg-[radial-gradient(circle_at_center,transparent_0%,#050505_75%)]
+          pointer-events-none
+          absolute
+          -right-[200px]
+          bottom-[-180px]
+          h-[600px]
+          w-[600px]
+          rounded-full
+          bg-[#806a4a]/10
+          blur-[180px]
         "
       />
 
-      {/* subtle vertical archive lines */}
-      <div className="pointer-events-none absolute inset-0 opacity-20">
-        <div className="absolute left-[8%] top-0 h-full w-px bg-white/10" />
-        <div className="absolute right-[8%] top-0 h-full w-px bg-white/10" />
+      {/* archive grid */}
+      <div className="pointer-events-none absolute inset-0 opacity-30">
+        <div className="absolute left-[8%] top-0 h-full w-px bg-white/[0.045]" />
+        <div className="absolute right-[8%] top-0 h-full w-px bg-white/[0.045]" />
+        <div className="absolute left-0 right-0 top-[18%] h-px bg-white/[0.035]" />
+        <div className="absolute left-0 right-0 bottom-[18%] h-px bg-white/[0.035]" />
       </div>
 
-      {/* Giant chapter */}
+      {/* giant chapter number */}
       <div
         className="
-          pointer-events-none absolute
-          left-1/2 top-20
-          -translate-x-1/2
+          pointer-events-none
+          absolute
+          -right-8
+          top-[-2rem]
           select-none
           font-display
           text-[18rem]
+          font-medium
           leading-none
-          text-white/[0.018]
+          tracking-[-0.08em]
+          text-white/[0.025]
           md:text-[25rem]
         "
       >
         06
       </div>
 
-      {/* =====================================
-          CONTENT
-      ====================================== */}
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-28 lg:px-12">
-
-        {/* Chapter label */}
+      {/* main content */}
+      <div
+        className={`
+          relative
+          z-10
+          mx-auto
+          max-w-7xl
+          px-6
+          py-28
+          lg:px-12
+          lg:py-36
+          transition-all
+          duration-[1200ms]
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+          ${
+            isActive
+              ? "translate-y-0 opacity-100"
+              : "pointer-events-none translate-y-16 opacity-0"
+          }
+        `}
+      >
+        {/* chapter header */}
         <div
           className={`
-            flex items-center gap-4
-            transition-all duration-[1200ms]
+            mb-16
+            flex
+            items-center
+            gap-4
+            transition-all
+            duration-[900ms]
+            ease-[cubic-bezier(0.22,1,0.36,1)]
             ${
-              visible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0"
-            }
-          `}
-        >
-          <span className="h-px w-12 bg-[#b91c1c]" />
-
-          <span className="text-[10px] uppercase tracking-[0.4em] text-[#a8a29e]">
-            Chapter 06
-          </span>
-
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#52504d]">
-            The Night
-          </span>
-        </div>
-
-        {/* =====================================
-            TITLE
-        ====================================== */}
-
-        <div
-          className={`
-            mt-12 max-w-5xl
-            transition-all duration-[1400ms] delay-100
-            ${
-              visible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-12 opacity-0"
-            }
-          `}
-        >
-          <p className="mb-6 text-xs uppercase tracking-[0.4em] text-[#806a4a]">
-            30 September — 1 October 1965
-          </p>
-
-          <h2 className="font-display text-6xl uppercase leading-[0.82] tracking-[-0.04em] md:text-8xl lg:text-[9rem]">
-            MALAM
-            <br />
-
-            <span className="text-[#b91c1c]">YANG</span>
-            <br />
-
-            MENGUBAH
-            <br />
-
-            SEJARAH
-          </h2>
-        </div>
-
-        {/* Intro */}
-        <div
-          className={`
-            mt-14 max-w-2xl
-            border-l border-[#7f1d1d]
-            pl-6
-            transition-all duration-[1400ms] delay-300
-            ${
-              visible
+              isActive
                 ? "translate-x-0 opacity-100"
                 : "-translate-x-8 opacity-0"
             }
           `}
         >
-          <p className="text-sm leading-8 text-[#a8a29e] md:text-base">
-            Malam itu, sejumlah perwira tinggi Angkatan Darat menjadi
-            sasaran operasi penculikan. Klik setiap nama untuk melihat
-            potongan peristiwa yang terjadi pada malam hingga dini hari
-            tersebut.
-          </p>
-        </div>
+          <span className="h-px w-12 bg-[#b91c1c]" />
 
-        {/* =====================================
-            OFFICER GRID
-        ====================================== */}
-
-        <div className="mt-20">
-
-          <div className="mb-8 flex items-center justify-between">
-            <p className="text-[9px] uppercase tracking-[0.35em] text-[#806a4a]">
-              Sasaran operasi
-            </p>
-
-            <p className="font-mono text-[9px] tracking-[0.2em] text-[#52504d]">
-              07 NAMES
-            </p>
-          </div>
-
-          <div className="grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
-            {officers.map((officer, index) => (
-              <button
-                key={officer.name}
-                onClick={() => setActiveOfficer(officer)}
-                className={`
-                  group relative
-                  min-h-[280px]
-                  overflow-hidden
-                  bg-[#0b0b0b]
-                  p-7
-                  text-left
-                  transition-all duration-700
-                  hover:bg-[#150909]
-                  ${
-                    visible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-14 opacity-0"
-                  }
-                `}
-                style={{
-                  transitionDelay: `${450 + index * 100}ms`,
-                }}
-              >
-                {/* Number */}
-                <div className="flex items-start justify-between">
-                  <span className="font-mono text-[10px] tracking-[0.25em] text-[#7f1d1d]">
-                    {officer.number}
-                  </span>
-
-                  <span
-                    className="
-                      h-2 w-2
-                      rounded-full
-                      bg-[#292929]
-                      transition-all duration-500
-                      group-hover:bg-[#b91c1c]
-                      group-hover:shadow-[0_0_15px_rgba(185,28,28,0.6)]
-                    "
-                  />
-                </div>
-
-                {/* Portrait placeholder */}
-                <div
-                  className="
-                    absolute
-                    right-6 top-16
-                    flex h-20 w-20
-                    items-center justify-center
-                    border border-white/10
-                    bg-[#111111]
-                    transition-all duration-700
-                    group-hover:border-[#7f1d1d]
-                    group-hover:scale-105
-                  "
-                >
-                  <span className="font-display text-3xl text-white/10">
-                    {officer.number}
-                  </span>
-                </div>
-
-                {/* Name */}
-                <div className="absolute bottom-7 left-7 right-7">
-                  <p className="mb-3 max-w-[170px] text-[9px] uppercase leading-4 tracking-[0.2em] text-[#806a4a]">
-                    {officer.role}
-                  </p>
-
-                  <h3 className="max-w-[230px] font-display text-2xl uppercase leading-tight text-[#f2ede3] transition-transform duration-500 group-hover:translate-x-1">
-                    {officer.name}
-                  </h3>
-
-                  <div className="mt-5 flex items-center gap-3 text-[9px] uppercase tracking-[0.25em] text-[#52504d] transition-colors group-hover:text-[#b91c1c]">
-                    <span>Open record</span>
-                    <span>→</span>
-                  </div>
-                </div>
-
-                {/* Bottom red line */}
-                <div
-                  className="
-                    absolute bottom-0 left-0
-                    h-[2px] w-full
-                    origin-left
-                    scale-x-0
-                    bg-[#b91c1c]
-                    transition-transform duration-700
-                    group-hover:scale-x-100
-                  "
-                />
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* =====================================
-            NOTE
-        ====================================== */}
-
-        <div className="mt-12 flex gap-4 border-t border-white/10 pt-6">
-          <span className="mt-1 text-[#b91c1c]">●</span>
-
-          <p className="max-w-3xl text-xs leading-6 text-[#52504d]">
-            Tampilan ini menggunakan foto arsip sebagai elemen dokumenter.
-            Hindari penggunaan gambar grafis atau eksplisit; fokus visual
-            berada pada identitas, waktu, dan konteks peristiwa.
-          </p>
-        </div>
-
-        {/* =====================================
-            BOTTOM
-        ====================================== */}
-
-        <div className="mt-24 flex items-center justify-between border-t border-white/10 pt-6">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-[#52504d]">
-            06 — Malam 30 September
+          <span className="text-[10px] font-semibold uppercase tracking-[0.4em] text-[#a8a29e]">
+            Chapter 06
           </span>
 
-          <span className="text-[9px] uppercase tracking-[0.3em] text-[#52504d]">
-            Next — The Broadcast ↓
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#b91c1c]">
+            The Night
           </span>
         </div>
-      </div>
 
-      {/* =====================================
-          DETAIL MODAL
-      ====================================== */}
-
-      {activeOfficer && (
-        <div
-          className="
-            fixed inset-0 z-50
-            flex items-center justify-center
-            bg-black/85
-            px-6
-            backdrop-blur-md
-          "
-          onClick={() => setActiveOfficer(null)}
-        >
+        {/* intro */}
+        <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
           <div
-            className="
-              relative
-              w-full max-w-2xl
-              border border-white/10
-              bg-[#0b0b0b]
-              p-8
-              shadow-2xl
-              md:p-12
-              animate-fade-up
-            "
-            onClick={(event) => event.stopPropagation()}
+            className={`
+              transition-all
+              duration-[1100ms]
+              ease-[cubic-bezier(0.22,1,0.36,1)]
+              ${
+                isActive
+                  ? "translate-x-0 opacity-100"
+                  : "-translate-x-12 opacity-0"
+              }
+            `}
           >
-            {/* Close */}
-            <button
-              onClick={() => setActiveOfficer(null)}
-              className="
-                absolute right-6 top-5
-                text-2xl
-                text-[#52504d]
-                transition-colors
-                hover:text-[#b91c1c]
-              "
-              aria-label="Tutup"
-            >
-              ×
-            </button>
+            <p className="mb-5 text-xs uppercase tracking-[0.35em] text-[#806a4a]">
+              30 September - 1 Oktober 1965
+            </p>
 
-            <div className="flex items-center gap-4">
+            <h2
+              className="
+                font-display
+                text-5xl
+                uppercase
+                leading-[0.88]
+                tracking-[-0.045em]
+                md:text-7xl
+                lg:text-8xl
+              "
+            >
+              MALAM
+              <br />
+              <span className="text-[#b91c1c]">
+                YANG BERGERAK
+              </span>
+            </h2>
+
+            <div className="mt-8 h-px w-24 bg-[#b91c1c]" />
+          </div>
+
+          <div
+            className={`
+              transition-all
+              delay-150
+              duration-[1100ms]
+              ease-[cubic-bezier(0.22,1,0.36,1)]
+              ${
+                isActive
+                  ? "translate-x-0 opacity-100"
+                  : "translate-x-12 opacity-0"
+              }
+            `}
+          >
+            <p className="max-w-md text-sm leading-8 text-[#a8a29e] md:text-base">
+              Malam itu, rangkaian operasi mulai berlangsung
+              di Jakarta. Sejumlah perwira Angkatan Darat
+              menjadi sasaran penculikan dan peristiwa
+              kemudian berlanjut hingga dini hari 1 Oktober.
+            </p>
+          </div>
+        </div>
+
+        {/* scene 01 — film illustration */}
+        <div
+          className={`
+            mt-28
+            grid
+            gap-12
+            lg:grid-cols-[1.15fr_0.85fr]
+            lg:items-center
+            transition-all
+            duration-[1200ms]
+            ease-[cubic-bezier(0.22,1,0.36,1)]
+            ${
+              sceneVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-12 opacity-0"
+            }
+          `}
+        >
+          <div className="group relative overflow-hidden border border-white/[0.08] bg-[#0d0d0d]">
+            <div className="relative aspect-[16/10] overflow-hidden">
+              <img
+                src="/assets/adegan-film-g30spki.jpg"
+                alt="Salah satu adegan dari film Pengkhianatan G30S PKI produksi tahun 1984"
+                className="
+                  h-full
+                  w-full
+                  object-cover
+                  grayscale
+                  opacity-80
+                  transition-transform
+                  duration-[1800ms]
+                  ease-out
+                  group-hover:scale-105
+                "
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/85 via-[#050505]/10 to-[#050505]/20" />
+
+              <div className="absolute left-5 top-5 max-w-[85%]">
+                <span className="hidden border border-white/10 bg-black/50 px-3 py-2 text-[9px] uppercase leading-5 tracking-[0.2em] text-[#a8a29e] backdrop-blur-sm md:inline-block">
+                  Salah satu adegan dari film Pengkhianatan G30S PKI dengan sutradara Arifin C Noer produksi tahun 1984.
+                </span>
+              </div>
+
+              <div className="absolute bottom-5 left-5">
+                <p className="font-mono text-[9px] tracking-[0.2em] text-[#b91c1c]">
+                  Ilustrasi
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`
+              transition-all
+              delay-200
+              duration-[1100ms]
+              ease-[cubic-bezier(0.22,1,0.36,1)]
+              ${
+                sceneVisible
+                  ? "translate-x-0 opacity-100"
+                  : "translate-x-12 opacity-0"
+              }
+            `}
+          >
+            <div className="mb-6 flex items-center gap-3">
               <span className="font-mono text-xs tracking-[0.2em] text-[#b91c1c]">
-                {activeOfficer.number}
+                01
               </span>
 
-              <span className="h-px w-10 bg-[#7f1d1d]" />
+              <span className="h-px w-8 bg-[#b91c1c]/50" />
 
-              <span className="text-[9px] uppercase tracking-[0.3em] text-[#806a4a]">
-                Historical Record
+              <span className="text-[9px] uppercase tracking-[0.3em] text-[#b91c1c]">
+                Representasi Film
               </span>
             </div>
 
-            <h3 className="mt-8 max-w-xl font-display text-4xl uppercase leading-tight md:text-6xl">
-              {activeOfficer.name}
+            <h3 className="font-display text-3xl uppercase leading-[1] md:text-4xl">
+              Sebuah
+              <br />
+              <span className="text-[#b91c1c]">
+                Representasi
+              </span>
+              <br />
+              Peristiwa
             </h3>
 
-            <p className="mt-4 text-[10px] uppercase tracking-[0.25em] text-[#806a4a]">
-              {activeOfficer.role}
+            <p className="mt-7 max-w-lg text-sm leading-8 text-[#8f8982]">
+              Gambar ini bukan dokumentasi langsung dari malam
+              30 September 1965, melainkan salah satu adegan
+              dari film Pengkhianatan G30S PKI yang diproduksi
+              pada tahun 1984.
             </p>
 
-            <div className="my-8 h-px w-full bg-white/10" />
+            <div className="mt-8 border-l border-[#b91c1c]/50 pl-5">
+              <p className="text-xs leading-6 text-[#a8a29e]">
+                Film tersebut disutradarai oleh Arifin C. Noer
+                dan menggambarkan kembali rangkaian peristiwa
+                yang berkaitan dengan G30S.
+              </p>
+            </div>
+          </div>
+        </div>
 
-            <p className="text-sm leading-8 text-[#a8a29e] md:text-base">
-              {activeOfficer.detail}
+        {/* timeline transition */}
+        <div
+          className={`
+            my-28
+            flex
+            items-center
+            gap-5
+            transition-all
+            duration-[1000ms]
+            ${sceneVisible ? "opacity-100" : "opacity-0"}
+          `}
+        >
+          <span className="font-mono text-[10px] tracking-[0.25em] text-[#b91c1c]">
+            30.09
+          </span>
+
+          <div className="relative h-px flex-1 overflow-hidden bg-white/[0.08]">
+            <div
+              className={`
+                absolute
+                left-0
+                top-0
+                h-px
+                bg-[#b91c1c]
+                transition-all
+                duration-[1800ms]
+                ease-out
+                ${sceneVisible ? "w-full" : "w-0"}
+              `}
+            />
+          </div>
+
+          <span className="text-[9px] uppercase tracking-[0.3em] text-[#b91c1c]">
+            Dini hari
+          </span>
+        </div>
+
+        {/* scene 02 — S. Parman illustration */}
+        <div
+          className={`
+            grid
+            gap-12
+            lg:grid-cols-[0.8fr_1.2fr]
+            lg:items-center
+            transition-all
+            duration-[1300ms]
+            ease-[cubic-bezier(0.22,1,0.36,1)]
+            ${
+              sceneVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-12 opacity-0"
+            }
+          `}
+        >
+          <div className="order-2 lg:order-1">
+            <div className="mb-6 flex items-center gap-3">
+              <span className="font-mono text-xs tracking-[0.2em] text-[#b91c1c]">
+                02
+              </span>
+
+              <span className="h-px w-8 bg-[#b91c1c]/50" />
+
+              <span className="text-[9px] uppercase tracking-[0.3em] text-[#b91c1c]">
+                Ilustrasi Peristiwa
+              </span>
+            </div>
+
+            <h3 className="font-display text-3xl uppercase leading-[1] md:text-4xl">
+              Mayjen
+              <br />
+              <span className="text-[#b91c1c]">
+                S. Parman
+              </span>
+            </h3>
+
+            <p className="mt-7 max-w-lg text-sm leading-8 text-[#8f8982]">
+              Adegan pada gambar kedua merupakan ilustrasi
+              yang menggambarkan Mayjen S. Parman dalam
+              rangkaian peristiwa yang terjadi pada malam
+              30 September hingga 1 Oktober 1965.
             </p>
 
-            <div className="mt-8 border-l border-[#7f1d1d] pl-5">
-              <p className="text-xs leading-6 text-[#73706c]">
-                Rangkaian penculikan tersebut berlangsung pada malam
-                30 September hingga dini hari 1 Oktober 1965.
+            <div className="mt-8 border-l border-[#b91c1c]/50 pl-5">
+              <p className="text-xs leading-6 text-[#a8a29e]">
+                Gambar ini merupakan ilustrasi, bukan foto
+                dokumentasi langsung dari peristiwa tersebut.
               </p>
             </div>
 
-            <button
-              onClick={() => setActiveOfficer(null)}
-              className="
-                mt-10
-                border border-white/10
-                px-5 py-3
-                text-[9px]
-                uppercase
-                tracking-[0.3em]
-                text-[#a8a29e]
-                transition-all
-                hover:border-[#b91c1c]
-                hover:text-[#f2ede3]
-              "
-            >
-              Close Record
-            </button>
+            <div className="mt-8 flex items-center gap-4">
+              <span className="font-mono text-[10px] tracking-[0.2em] text-[#b91c1c]">
+                ILUSTRASI
+              </span>
+
+              <span className="h-px w-10 bg-[#b91c1c]/40" />
+
+              <span className="text-[9px] uppercase tracking-[0.25em] text-[#5f5a55]">
+                S. Parman
+              </span>
+            </div>
+          </div>
+
+          <div className="group order-1 relative overflow-hidden border border-white/[0.08] bg-[#0d0d0d] lg:order-2">
+            <div className="relative aspect-[16/10] overflow-hidden">
+              <img
+                src="/assets/ilustrasi-penyiksaan.jpg"
+                alt="Ilustrasi yang menggambarkan Mayjen S. Parman"
+                className="
+                  h-full
+                  w-full
+                  object-cover
+                  grayscale
+                  opacity-80
+                  transition-transform
+                  duration-[2000ms]
+                  ease-out
+                  group-hover:scale-105
+                "
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-transparent to-[#050505]/15" />
+
+              <div className="absolute left-5 top-5">
+                <span className="border border-[#b91c1c]/20 bg-black/55 px-3 py-2 text-[9px] uppercase tracking-[0.25em] text-[#b91c1c] backdrop-blur-sm">
+                  Ilustrasi
+                </span>
+              </div>
+
+              <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
+                <span className="text-[9px] uppercase tracking-[0.25em] text-[#a8a29e]">
+                  Mayjen S. Parman
+                </span>
+
+                <span className="font-mono text-[9px] text-[#b91c1c]">
+                  ILUSTRASI
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-      )}
+
+        {/* cliffhanger */}
+        <div
+          className={`
+            mt-32
+            border-t
+            border-white/[0.08]
+            pt-10
+            transition-all
+            duration-[1100ms]
+            ${
+              sceneVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }
+          `}
+        >
+          <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+            <div>
+              <p className="text-[9px] uppercase tracking-[0.35em] text-[#806a4a]">
+                Berikutnya
+              </p>
+
+              <h3 className="mt-4 max-w-3xl font-display text-3xl uppercase leading-[1] tracking-[-0.02em] md:text-5xl">
+                Suara itu
+                <br />
+                mulai terdengar.
+              </h3>
+
+              <p className="mt-6 max-w-2xl text-sm leading-8 text-[#77716b]">
+                Apa yang kemudian diumumkan melalui radio?
+                Dan bagaimana pengumuman tersebut disampaikan
+                kepada masyarakat?
+              </p>
+            </div>
+
+            <div className="text-left md:text-right">
+              <span className="text-[9px] uppercase tracking-[0.3em] text-[#5c5752]">
+                Next
+              </span>
+
+              <p className="mt-2 font-display text-2xl text-[#b91c1c]">
+                07
+              </p>
+
+              <p className="mt-1 text-[9px] uppercase tracking-[0.25em] text-[#77716b]">
+                Siaran
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* footer */}
+        <div className="mt-24 flex items-center justify-between border-t border-white/[0.06] pt-6">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-[#4f4b47]">
+            06 — Malam 30 September
+          </span>
+
+          <span className="text-[9px] uppercase tracking-[0.3em] text-[#4f4b47]">
+            The Voice Begins ↓
+          </span>
+        </div>
+      </div>
     </section>
   );
 }

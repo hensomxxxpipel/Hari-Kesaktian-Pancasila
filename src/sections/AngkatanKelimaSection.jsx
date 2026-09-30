@@ -66,9 +66,9 @@ export default function AngkatanKelimaSection() {
             absolute
             inset-0
             bg-gradient-to-b
-            from-[#080808]/90
-            via-[#080808]/62
-            to-[#080808]/92
+            from-[#080808]/60
+            via-[#080808]/50
+            to-[#080808]/70
             md:hidden
           "
         />
@@ -305,7 +305,7 @@ export default function AngkatanKelimaSection() {
                   relative
                   border
                   border-white/[0.09]
-                  bg-black/70
+                  bg-black/60
                   p-5
                   backdrop-blur-[7px]
 
@@ -467,7 +467,7 @@ export default function AngkatanKelimaSection() {
                   relative
                   border
                   border-white/[0.09]
-                  bg-black/70
+                  bg-black/60
                   p-5
                   backdrop-blur-[7px]
 
