@@ -352,9 +352,73 @@ export default function HeroSection() {
           flex-col
           justify-center
           px-6
-          py-32
+          py-10
         "
       >
+        
+        {/* ===================================================
+            PRESENTED BY P3MD
+        =================================================== */}
+
+        <Reveal direction="left" delay={50}>
+          <div
+            className="
+              mb-10
+              flex
+              items-center
+              gap-4
+            "
+          >
+            {/* LOGO P3MD */}
+            <img
+              src="/logo-p3md.png"
+              alt="P3MD"
+              className="
+                h-20
+                w-auto
+                object-contain
+                drop-shadow-[0_4px_20px_rgba(0,0,0,0.5)]
+                md:h-24
+              "
+            />
+
+            {/* TEXT */}
+            <div
+              className="
+                flex
+                flex-col
+                justify-center
+              "
+            >
+              <span
+                className="
+                  text-[9px]
+                  font-medium
+                  uppercase
+                  tracking-[0.35em]
+                  text-[#9a948c]
+                "
+              >
+                Presented by
+              </span>
+
+              <span
+                className="
+                  mt-1
+                  text-sm
+                  font-bold
+                  uppercase
+                  tracking-[0.28em]
+                  text-[#c49a5a]
+                "
+              >
+                P3MD
+              </span>
+            </div>
+          </div>
+        </Reveal>
+
+
         {/* ===================================================
             TOP LABEL
         =================================================== */}
